@@ -1,5 +1,20 @@
 version: '3.8'
 services:
+  neo4j:
+    image: "neo4j:latest"
+    ports:
+      - "7687:7687"
+    env_file:
+      - neo4j.env
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "neo4j", "CALL dbms.components()"]
+      interval: 10s
+      timeout: 5s 
+      retries: 5 
+      start_period: 30s 
+    networks:
+      - one-stop-med-network
+
   client:
     image: "safeerep/med-client:latest"
     ports:
@@ -13,6 +28,9 @@ services:
       - "3001:3001"
     env_file:
       - server.env
+    depends_on:
+      neo4j:
+        condition: service_healthy
     networks:
       - one-stop-med-network
 
