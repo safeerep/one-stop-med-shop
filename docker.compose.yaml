@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  client:
+    image: "safeerep/med-client:latest"
+    ports:
+      - "5173:5173"
+    networks:
+      - one-stop-med-network
+
+  server:
+    image: "safeerep/med-server:latest"
+    ports:
+      - "3001:3001"
+    env_file:
+      - server.env
+    networks:
+      - one-stop-med-network
+
+networks:
+  one-stop-med-network:
