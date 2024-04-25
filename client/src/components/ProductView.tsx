@@ -122,7 +122,7 @@ const ProductView = () => {
                 onClick={() => {
                   setShowOverview(true);
                 }}
-                className="h-full w-44  flex items-center"
+                className={`h-full w-44  flex items-center ${ showOverview && ' border-b-2 font-semibold'} dark:border-white border-black`}
               >
                 Overview
               </div>
@@ -130,12 +130,20 @@ const ProductView = () => {
                 onClick={() => {
                   setShowOverview(false);
                 }}
-                className="h-full w-auto pr-3  flex items-center font-semibold border-b-2 dark:border-white border-black "
+                className={`h-full w-auto pr-3  flex items-center ${ !showOverview && ' border-b-2 font-semibold'} dark:border-white border-black`}
               >
                 Specification
               </div>
             </div>
-            {showOverview ? (
+            {showOverview ? 
+            (
+              <div className="w-full mb-4 px-5">
+                <ul className="list-disc space-y-4 text-sm">
+                  <li> {brand?.name}</li>
+                  <li> {manufacturer?.name}</li>
+                </ul>
+              </div>
+            ): (
               <div className="w-full mb-4 px-5">
                 <ul className="list-disc space-y-4 text-sm">
                   {product?.features?.map((feature: string) => (
@@ -143,26 +151,8 @@ const ProductView = () => {
                   ))}
                 </ul>
               </div>
-            ) : (
-              <div className="w-full mb-4 px-5">
-                <ul className="list-disc space-y-4 text-sm">
-                  <li> {brand?.name}</li>
-                  <li> {manufacturer?.name}</li>
-                </ul>
-              </div>
-            )}
-          </div>
-          <div className="flex flex-col mt-3">
-            <div className="w-full font-semibold border-b h-12">
-              Related Products
-            </div>
-          </div>
-          <div className="w-full flex">
-            {/* <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard /> */}
+            )
+            }
           </div>
         </div>
       </main>
