@@ -1,9 +1,29 @@
-import ProductCard from "./ProductCard";
+// import ProductCard from "./ProductCard";
 import Navbar from "./shared/Navbar";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Footer from "./shared/Footer";
+import { useEffect } from "react";
+import axios from "axios";
+import { BASE_URL } from "@/constants";
+import { useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProductView = () => {
+  const [query, setQuery] = useSearchParams();
+  const productId: string = query.get("productId") || "";
+  setQuery(productId);
+  let product: Product = {};
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/fetch-product-details/${productId}`)
+      .then((response) => {
+        product = response.data;
+      })
+      .catch((reason: any) => {
+        console.log(reason);
+        toast("something went wrong during a specific product' details");
+      });
+  }, []);
   return (
     <>
       <Navbar />
@@ -17,7 +37,10 @@ const ProductView = () => {
             >
               <div className="w-full h-64 md:h-full flex items-center justify-center ">
                 <img
-                  src={`/med-product-example.jpg`}
+                  src={
+                  product?
+                  product.image:
+                  `/med-product-example.jpg`}
                   alt=""
                   className="h-72 md:w-1/2 md:h-auto "
                 />
@@ -25,28 +48,40 @@ const ProductView = () => {
               <div className="w-full h-28 md:h-48   overflow-x-auto whitespace-nowrap space-x-2 pt-2 px-">
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={`/med-product-example.jpg`}
+                    src={
+                      product?
+                      product.image:
+                      `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={`/med-product-example.jpg`}
+                    src={
+                      product?
+                      product.image:
+                      `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={`/med-product-example.jpg`}
+                    src={
+                      product?
+                      product.image:
+                      `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={`/med-product-example.jpg`}
+                    src={
+                      product?
+                      product.image:
+                      `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
@@ -58,7 +93,7 @@ const ProductView = () => {
             {/* product details */}
             <div className="w-full min-h-96 flex flex-col py-3 px-2 md:w-auto md:h-full md:py-0">
               <div className="text-xl">
-                <h2>Air Purifier</h2>
+                <h2>{product?.title}</h2>
               </div>
               <div className="flex gap-2 mt-3 h-6 items-center">
                 <div className="flex gap-1">
@@ -68,9 +103,7 @@ const ProductView = () => {
                   <img src={`/star.svg`} alt="" />
                   <img src={`/star.svg`} alt="" />
                 </div>
-                <div className="text-[12px]">
-                  ( There are no reviews yet )
-                </div>
+                <div className="text-[12px]">( There are no reviews yet )</div>
               </div>
               <div className="flex gap-2 mt-3 h-6 items-center">
                 <div className="flex gap-1 text-[#606060] text-[12px]">
@@ -83,9 +116,7 @@ const ProductView = () => {
               </div>
               <div className="flex gap-2 mt-3 text-[12px] items-center">
                 <p className="text-[#999999]">
-                  Pellentesque habitant morbi tristique senectus et netus et
-                  malesuada fames ac turpis egestas. Vestibulum tortor quam,
-                  feugiat vitae, ultricies eget, tempor sit amet, ante.{" "}
+                  {product?.meta_description}{" "}
                 </p>
               </div>
               <div>
@@ -110,9 +141,13 @@ const ProductView = () => {
             </div>
             <div className="w-full mb-4  px-5">
               <ul className="list-disc space-y-4 text-sm">
-                <li>Air purifier</li>
-                <li>5-in-1 UV Air Purifier Small Rooms</li>
-                <li>5-in-1 UV Air Purifier Small Rooms</li>
+                {
+                  product?.features?.map((feature: string) => (
+                    <li>{feature}</li>
+                  ))
+                }
+                {/* <li>5-in-1 UV Air Purifier Small Rooms</li>
+                <li>5-in-1 UV Air Purifier Small Rooms</li> */}
               </ul>
             </div>
           </div>
@@ -122,11 +157,11 @@ const ProductView = () => {
             </div>
           </div>
           <div className="w-full flex">
+            {/* <ProductCard />
             <ProductCard />
             <ProductCard />
             <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <ProductCard /> */}
           </div>
         </div>
       </main>
