@@ -1,4 +1,3 @@
-// import ProductCard from "./ProductCard";
 import Navbar from "./shared/Navbar";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Footer from "./shared/Footer";
@@ -16,7 +15,6 @@ const ProductView = () => {
   const manufacturer = data?.manufacturer;
   const [query, setQuery] = useSearchParams();
   const productId: string = query.get("productId") || "";
-  // setQuery(productId);
   const [showOverview, setShowOverview] = useState<boolean>(true);
 
   useEffect(() => {

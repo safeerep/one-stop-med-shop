@@ -24,7 +24,7 @@ export const fetchSpecificProduct = createAsyncThunk(
 export const addProduct = createAsyncThunk(
     '/add-product', async (productDetails: object) => {
         return commonRequest(
-            "GET",
+            "POST",
             `/add-product`,
             productDetails
         )

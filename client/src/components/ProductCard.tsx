@@ -2,19 +2,25 @@ import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ products }: { products?: Product[] }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       {products &&
         products?.length > 1 &&
         products?.map((product: Product) => (
-          <div className="flex flex-col relative border py-2 lg:h-96 lg:px-5 lg:pt-2 cursor-pointer">
+          <div
+            key={product?._id}
+            className="flex flex-col relative border py-2 lg:h-96 lg:px-5 lg:pt-2 cursor-pointer"
+          >
             <div className="absolute top-2 left-2 bg-[#44961D] text-[12px] px-2 text-white">
               HOT
             </div>
             <div
-            onClick={() => navigate(`/product-view?productId=${product?._id}`)}
-             className="w-full  h-40 flex justify-center py-3 lg:h-56">
+              onClick={() =>
+                navigate(`/product-view?productId=${product?._id}`)
+              }
+              className="w-full  h-40 flex justify-center py-3 lg:h-56"
+            >
               <img
                 src={product?.image}
                 alt="Product image"

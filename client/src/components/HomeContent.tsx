@@ -64,11 +64,6 @@ const HomeContent = () => {
             </div>
             <div className="grid grid-cols-2 min-h-72 lg:grid-cols-3 lg:w-full">
               <ProductCard products={products} />
-              {/* <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard /> */}
             </div>
           </div>
         </section>
