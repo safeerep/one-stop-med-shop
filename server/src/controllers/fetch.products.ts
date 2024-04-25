@@ -16,12 +16,12 @@ export default async (req: Request, res: Response) => {
                 return productNode?.properties;
             })
 
-            return res.status(200).send({
+            return res.status(200).json({
                 message: "successfully fetched the products",
                 products
             })
         } else {
-            return res.status(501).send({
+            return res.status(501).json({
                 message: "something went wrong in querying products"
             })
         }

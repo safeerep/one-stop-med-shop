@@ -73,7 +73,7 @@ export default async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(`an error happened during adding products ${error}`);
-    return res.status(501).send({
+    return res.status(501).json({
       message: "something went wrong",
       error,
     });
