@@ -3,26 +3,19 @@ import Navbar from "./shared/Navbar";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Footer from "./shared/Footer";
 import { useEffect } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/constants";
 import { useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchSpecificProduct } from "@/store/actions/actions";
 
 const ProductView = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const product = useSelector((state: RootState) => state.product.data)
   const [query, setQuery] = useSearchParams();
   const productId: string = query.get("productId") || "";
   setQuery(productId);
-  let product: Product = {};
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/fetch-product-details/${productId}`)
-      .then((response) => {
-        product = response.data;
-      })
-      .catch((reason: any) => {
-        console.log(reason);
-        toast("something went wrong during a specific product' details");
-      });
+    dispatch(fetchSpecificProduct(productId))
   }, []);
   return (
     <>

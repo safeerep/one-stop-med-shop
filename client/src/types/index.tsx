@@ -15,3 +15,9 @@ interface Product {
 interface Products {
     product: Product[]
 }
+
+interface INITIAL_STATE {
+    loading: boolean;
+    data: null | any,
+    error: boolean | any;
+}

@@ -3,22 +3,17 @@ import { Navbar, Footer } from "../components";
 import Banner from "./Banner";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "@/constants";
-import toast from "react-hot-toast";
+import { fetchProducts } from "@/store/actions/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 
 const HomeContent = () => {
   const navigate = useNavigate();
-  let products: Product[] = [];
+  const dispatch: AppDispatch = useDispatch()
+  let data: any = useSelector((state: RootState) => state.product.data)
+  const products: Product[] = data?.products || [];
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/fetch-products`)
-      .then((response) => {
-        products = response.data?.products;
-      })
-      .catch((reason) => {
-        toast.error(reason?.message);
-      });
+    dispatch(fetchProducts())
   }, []);
   return (
     <>
