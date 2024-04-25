@@ -4,11 +4,13 @@ import {
   Home, 
   ProductView
 } from "./pages";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Toaster />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product-view" element={<ProductView />} />
