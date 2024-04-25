@@ -2,7 +2,7 @@
 import Navbar from "./shared/Navbar";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Footer from "./shared/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
@@ -10,12 +10,20 @@ import { fetchSpecificProduct } from "@/store/actions/actions";
 
 const ProductView = () => {
   const dispatch: AppDispatch = useDispatch();
-  const product = useSelector((state: RootState) => state.product.data)
+  const data: any = useSelector((state: RootState) => state.product.data);
+  const product: Product = data?.productDetails;
+  const brand = data?.brand;
+  const manufacturer = data?.manufacturer;
   const [query, setQuery] = useSearchParams();
   const productId: string = query.get("productId") || "";
-  setQuery(productId);
+  // setQuery(productId);
+  const [showOverview, setShowOverview] = useState<boolean>(true);
+
   useEffect(() => {
-    dispatch(fetchSpecificProduct(productId))
+    dispatch(fetchSpecificProduct(productId));
+    return () => {
+      setQuery('')
+    }
   }, []);
   return (
     <>
@@ -30,10 +38,7 @@ const ProductView = () => {
             >
               <div className="w-full h-64 md:h-full flex items-center justify-center ">
                 <img
-                  src={
-                  product?
-                  product.image:
-                  `/med-product-example.jpg`}
+                  src={product ? product?.image : `/med-product-example.jpg`}
                   alt=""
                   className="h-72 md:w-1/2 md:h-auto "
                 />
@@ -41,40 +46,28 @@ const ProductView = () => {
               <div className="w-full h-28 md:h-48   overflow-x-auto whitespace-nowrap space-x-2 pt-2 px-">
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={
-                      product?
-                      product.image:
-                      `/med-product-example.jpg`}
+                    src={product ? product?.image : `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={
-                      product?
-                      product.image:
-                      `/med-product-example.jpg`}
+                    src={product ? product?.image : `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={
-                      product?
-                      product.image:
-                      `/med-product-example.jpg`}
+                    src={product ? product?.image : `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
                 </div>
                 <div className="h-[92%] w-28 inline-block relative">
                   <img
-                    src={
-                      product?
-                      product.image:
-                      `/med-product-example.jpg`}
+                    src={product ? product?.image : `/med-product-example.jpg`}
                     alt="Ig"
                     className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                   />
@@ -108,9 +101,7 @@ const ProductView = () => {
                 </div>
               </div>
               <div className="flex gap-2 mt-3 text-[12px] items-center">
-                <p className="text-[#999999]">
-                  {product?.meta_description}{" "}
-                </p>
+                <p className="text-[#999999]">{product?.meta_description} </p>
               </div>
               <div>
                 <div className="flex mt-4 gap-5 justify-between py-4 border-t border-b md:justify-start">
@@ -127,22 +118,39 @@ const ProductView = () => {
           </div>
           <div className="w-full  mt-10 md:mt-28 flex flex-col gap-y-10">
             <div className="h-12 flex border-b">
-              <div className="h-full w-44  flex items-center">Overview</div>
-              <div className="h-full w-auto pr-3  flex items-center font-semibold border-b-2 dark:border-white border-black ">
+              <div
+                onClick={() => {
+                  setShowOverview(true);
+                }}
+                className="h-full w-44  flex items-center"
+              >
+                Overview
+              </div>
+              <div
+                onClick={() => {
+                  setShowOverview(false);
+                }}
+                className="h-full w-auto pr-3  flex items-center font-semibold border-b-2 dark:border-white border-black "
+              >
                 Specification
               </div>
             </div>
-            <div className="w-full mb-4  px-5">
-              <ul className="list-disc space-y-4 text-sm">
-                {
-                  product?.features?.map((feature: string) => (
+            {showOverview ? (
+              <div className="w-full mb-4 px-5">
+                <ul className="list-disc space-y-4 text-sm">
+                  {product?.features?.map((feature: string) => (
                     <li>{feature}</li>
-                  ))
-                }
-                {/* <li>5-in-1 UV Air Purifier Small Rooms</li>
-                <li>5-in-1 UV Air Purifier Small Rooms</li> */}
-              </ul>
-            </div>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div className="w-full mb-4 px-5">
+                <ul className="list-disc space-y-4 text-sm">
+                  <li> {brand?.name}</li>
+                  <li> {manufacturer?.name}</li>
+                </ul>
+              </div>
+            )}
           </div>
           <div className="flex flex-col mt-3">
             <div className="w-full font-semibold border-b h-12">
