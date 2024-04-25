@@ -7,7 +7,7 @@ services:
     env_file:
       - neo4j.env
     healthcheck:
-      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "neo4j", "CALL dbms.components()"]
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "90909090", "CALL dbms.components()"]
       interval: 10s
       timeout: 5s 
       retries: 5 
